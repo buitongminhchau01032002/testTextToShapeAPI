@@ -95,6 +95,12 @@
 <body>
     <div class="main">
         <div class="controlSide">
+            <div>
+                <input type="radio" id="circle" name="shape" value="circle" checked>
+                <label for="circle">Tròn</label><br>
+                <input type="radio" id="heart" name="shape" value="heart">
+                <label for="heart">Trái tim</label>
+            </div>
             <textarea rows="10" cols="50" placeholder="Nhập đoạn văn bản" class="inputText"></textarea>
             <div class="btnGroup">
                 <button class="btn btnCreate">Tạo ảnh</button>
@@ -104,7 +110,7 @@
         </div>
         <div class="imgSide">
             <div class="mainImg">
-                <img src="https://picsum.photos/700/600" alt="">
+                <img src="https://picsum.photos/600/600" alt="">
             </div>
         </div>
     </div>
@@ -114,17 +120,28 @@
         let inputElem = document.querySelector('.inputText')
         let imgElem = document.querySelector('.mainImg > img')
         let loadMess = document.querySelector('.loadingMess')
+        let radioHeart = document.querySelector('#heart')
         createBtnElem.addEventListener('click', createImg)
 
         function createImg() {
             loadMess.style.visibility = 'visible'
             let text = inputElem.value
-            fetch(`https://texttoshape.herokuapp.com/circle?textinput=${text}`)
+            let type = 'circle'
+            if (radioHeart.checked) {
+                type = 'heart'
+            }
+            fetch(`https://texttoshape.herokuapp.com/${type}?textinput=${text}`)
             .then(res => res.text())
             .then(link => {
                 loadMess.style.visibility = 'hidden'
                 imgElem.src = link 
             })
+            // fetch(`http://localhost:3000/${type}?textinput=${text}`)
+            // .then(res => res.text())
+            // .then(link => {
+            //     loadMess.style.visibility = 'hidden'
+            //     imgElem.src = link 
+            // })
         }
     </script>
 </body>
