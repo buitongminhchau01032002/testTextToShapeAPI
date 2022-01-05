@@ -96,10 +96,14 @@
     <div class="main">
         <div class="controlSide">
             <div>
-                <input type="radio" id="circle" name="shape" value="circle" checked>
+                <input class="radio-type" type="radio" id="circle" name="shape" value="circle" checked>
                 <label for="circle">Tròn</label><br>
-                <input type="radio" id="heart" name="shape" value="heart">
-                <label for="heart">Trái tim</label>
+                <input class="radio-type" type="radio" id="heart" name="shape" value="heart">
+                <label for="heart">Trái tim</label><br>
+                <input class="radio-type" type="radio" id="left-heart" name="shape" value="half-left-heart">
+                <label for="left-heart">Nửa trái tim bên trái</label><br>
+                <input class="radio-type" type="radio" id="right-heart" name="shape" value="half-right-heart">
+                <label for="right-heart">Nửa trái tim bên phải</label>
             </div>
             <textarea rows="10" cols="50" placeholder="Nhập đoạn văn bản" class="inputText"></textarea>
             <div class="btnGroup">
@@ -115,21 +119,23 @@
         </div>
     </div>
 
-    <script>
+    <script type="text/javascript">
         let createBtnElem = document.querySelector('.btnCreate')
         let inputElem = document.querySelector('.inputText')
         let imgElem = document.querySelector('.mainImg > img')
         let loadMess = document.querySelector('.loadingMess')
-        let radioHeart = document.querySelector('#heart')
+        let radioHearts = document.querySelectorAll('.radio-type')
         createBtnElem.addEventListener('click', createImg)
 
         function createImg() {
             loadMess.style.visibility = 'visible'
             let text = inputElem.value
             let type = 'circle'
-            if (radioHeart.checked) {
-                type = 'heart'
-            }
+            ;[...radioHearts].forEach(elem => {
+                if (elem.checked) {
+                    type = elem.value
+                }
+            })
             fetch(`https://texttoshape.herokuapp.com/${type}?textinput=${text}`)
             .then(res => res.text())
             .then(link => {
